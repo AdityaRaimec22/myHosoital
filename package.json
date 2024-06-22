@@ -9,9 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie": "^0.6.0",
+    "cookies-next": "^4.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.7.0",
+    "mongoose": "^8.4.1",
+    "next": "14.0.4",
+    "next-auth": "^4.24.5",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.0.4"
+    "swiper": "^11.0.5",
+    "swiper-react": "^1.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",
