@@ -1,33 +1,6 @@
 const mongoose = require("mongoose");
 
-const DoctorsSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    Qualification: {
-        type: String,
-        required: true
-    },
-    Age: {
-        type: Number,
-        required: true,
-    },
-    Gender: {
-        type: Number,
-        required: true
-    },
-    Role: {
-        type: String,
-        required: true
-    },
-    img: {
-        data: Buffer,
-        contentType: String
-    },
-})
-
-const HospitalSchema = new mongoose.Schema({
+const Hospital = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -37,6 +10,10 @@ const HospitalSchema = new mongoose.Schema({
     },
     city: {
         type: String
+    },
+    pinCode: {
+        type: Number,
+        required: true
     },
     address: {
         type: String,
@@ -57,9 +34,12 @@ const HospitalSchema = new mongoose.Schema({
             }
         }
     ],
-    doctors: [
-        DoctorsSchema
+    Doctors: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Doctor'
+        }
     ]
 });
 
-export default mongoose.models.HospitalSchema || mongoose.model("HospitalSchema", HospitalSchema);
+export default mongoose.models.Hospital || mongoose.model("Hospital", Hospital);

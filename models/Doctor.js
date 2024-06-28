@@ -14,7 +14,7 @@ const DoctorsSchema = new mongoose.Schema({
         required: true,
     },
     Gender: {
-        type: Number,
+        type: String,
         required: true
     },
     Role: {
@@ -25,6 +25,23 @@ const DoctorsSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String
     },
-})
+    HospitalId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Hospital'
+    },
+    CurrentNumber: {
+        type: Number
+    },
+    LastNumber: {
+        type: Number,
+        default: 0,
+    },
+    Patients: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Patient'
+        }
+    ]
+});
 
-export default mongoose.models.DoctorsSchema || mongoose.model("DoctorsSchema", DoctorsSchema);
+export default mongoose.models.Doctor || mongoose.model("Doctor", DoctorsSchema);
