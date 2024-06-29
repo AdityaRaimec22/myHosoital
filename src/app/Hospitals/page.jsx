@@ -91,6 +91,9 @@ const RegisterHospitals = () => {
             });
             console.log("aapki request successful hui", response.data);
             setSuccess(true);
+            setTimeout(() => {
+                setSuccess(false);
+            }, 2000);
         } catch (error) {
             console.error("error aa gya: ", error);
         }

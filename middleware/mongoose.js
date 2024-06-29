@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 // Directly embedding the MongoDB connection URL
-const MONGO_URL = "mongodb+srv://adityaraimec22:demouser@cluster0.iavkhha.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const MONGO_URL = `mongodb+srv://adityaraimec22:demouser@cluster0.iavkhha.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 const connectDB = handler => async (req, res) => {
     try {
