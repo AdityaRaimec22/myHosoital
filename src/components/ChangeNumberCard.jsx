@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import AppointmentCard from "./AppointmentCard";
-
+import ChangeNumber from "./ChangeNumber";
 
 const ChangeNumberCard = () => {
 
@@ -43,8 +43,8 @@ const ChangeNumberCard = () => {
                     <div className="w-[100%] flex justify-center">
                         <button onClick={togglePopup} className="bg-blue-400 p-[0.5vw] rounded-lg">Change Number</button>
                     </div>
-                    <AppointmentCard isOpen={isPopupOpen}
-                        onClose={togglePopup}/>
+                    <ChangeNumber isOpen={isPopupOpen}
+                        onClose={togglePopup} DoctorId={"667a84b851ef8bd5cec3958c"}/>
                     <hr className="my-4 w-full" />
                     <div className="grid grid-cols-3 bg-slate-200 rounded-xl py-2 px-[1vw] mb-3">
                         <h1 className="text-sm font-semibold flex flex-wrap">Doctors 12</h1>

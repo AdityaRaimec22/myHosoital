@@ -44,6 +44,11 @@ const AppointmentCard = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-6 rounded shadow-lg">
+      <div className='w-[100%]'>
+        <button className="flex text-2xl font-semibold right-0 p-[0.3vw] border bottom-3 rounded-lg shadow-xl" onClick={onClose}>
+          X
+        </button>
+      </div>
         <div className="flex justify-center text-2xl font-semibold">
           Appointment Form
         </div>
