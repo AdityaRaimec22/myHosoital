@@ -6,16 +6,7 @@ import axios from "axios";
 const RegisterHospitals = () => {
     const [FacilityArray, setFacilityArray] = useState([]);
 
-    const [doctorsArray, setDoctorsArray] = useState([
-        {
-            name: "Salman Khan",
-            role: "Driver"
-        },
-        {
-            name: "Adarsh Lodhi",
-            role: "Chutiya"
-        }
-    ]);
+    const [success, setSuccess] = useState(false);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -99,6 +90,7 @@ const RegisterHospitals = () => {
                 }
             });
             console.log("aapki request successful hui", response.data);
+            setSuccess(true);
         } catch (error) {
             console.error("error aa gya: ", error);
         }
@@ -128,6 +120,8 @@ const RegisterHospitals = () => {
             console.error("error aa gya: ", error);
         }
     }
+
+    
 
     return (
         <main>
@@ -220,6 +214,7 @@ const RegisterHospitals = () => {
                         <button type="submit" className="bg-green-500 text-white p-2 rounded-lg shadow-lg m-3">
                             Register Hospital
                         </button>
+                        {success && <h1>Hospital Added Successfully</h1>}
                     </form>
                     <form onSubmit={handleDocSubmit}>
                     <div className="mt-5 bg-white rounded-2xl shadow-2xl border border-black p-[1vw]">
