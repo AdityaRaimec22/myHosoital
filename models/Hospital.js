@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+import Doctor from "./Doctor";
 
 const Hospital = new mongoose.Schema({
     name: {

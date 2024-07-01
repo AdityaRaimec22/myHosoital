@@ -1,9 +1,32 @@
 "use client"
 import Navbar from "@/components/Navbar";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DoctorCard from "@/components/DoctorCard";
+import axios from "axios";
 
 const Hostpital = () => {
+
+    const HospitalId = `667d3c792f69332028522788`;
+    const [HospitalData, setHospitalData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        fetchHospitalData();
+    }, []);
+
+    const fetchHospitalData = async () => {
+        try {
+            const response = await axios.get(`/api/Hospitals/?id=${HospitalId}`);
+            console.log("API Response: ", response.data);
+            setHospitalData(response.data);
+        } catch (error) {
+            console.log(error);
+            setError(error);
+        } finally {
+            setLoading(false);
+        }
+    };
     
     return (
         <main>
@@ -49,8 +72,9 @@ const Hostpital = () => {
             </div>
             <h1 className="text-2xl font-semibold bg-white p-2 rounded-lg shadow-2xl mt-2">Our Doctors</h1>
             <div className='grid grid-cols-3 gap-4'>
-                <DoctorCard/>
-                
+                {HospitalData && HospitalData.Doctors.map((ele) => {
+                    return <DoctorCard key={ele._id} doctor={ele} HospitalId={HospitalId}/>
+                })}
             </div>
         </div>
         </main>

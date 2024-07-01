@@ -1,31 +1,34 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const AppointmentCard = ({ isOpen, onClose }) => {
+const AppointmentCard = ({ isOpen, onClose, HospitalId, doctorId, LastNumber }) => {
   if (!isOpen) return null;
+
+  console.log("the last number is: ", LastNumber, "the doctor Id is: ", doctorId);
 
   const [formData, setFormData] = useState({
     patientNumber: '',
     patientName: '',
     patientAge: '',
-    patientGender: '',
-    DoctorId: '',
-    HospitalId: '',
+    patientGender: ''
   });
 
   const formSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      patientNumber: formData.patientNumber || '30',
+      patientNumber: LastNumber+1,
       patientName: formData.patientName,
       patientAge: formData.patientAge,
       patientGender: formData.patientGender,
-      DoctorId: formData.DoctorId || '667a84b851ef8bd5cec3958c',
-      HospitalId: formData.HospitalId || '667a832a0e6d7f5f9a253dad',
+      DoctorId: doctorId,
+      HospitalId: HospitalId,
     };
 
     try {
       const response = await axios.post('/api/HospitalNumber', data);
+      const newNumber = LastNumber+1;
+      await axios.put('/api/Doctor/', {id: doctorId, LastNumber: newNumber, patientId: response.data._id})
+      
       console.log('aapki request safal hui: ', response.data);
       onClose(); // Close the modal when the request is successful
     } catch (error) {
@@ -44,11 +47,11 @@ const AppointmentCard = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-6 rounded shadow-lg">
-      <div className='w-[100%]'>
-        <button className="flex text-2xl font-semibold right-0 p-[0.3vw] border bottom-3 rounded-lg shadow-xl" onClick={onClose}>
-          X
-        </button>
-      </div>
+      <div className="flex justify-end">
+          <button className="text-2xl font-semibold p-[0.3vw] border bottom-3 rounded-lg shadow-xl" onClick={onClose}>
+            X
+          </button>
+        </div>
         <div className="flex justify-center text-2xl font-semibold">
           Appointment Form
         </div>

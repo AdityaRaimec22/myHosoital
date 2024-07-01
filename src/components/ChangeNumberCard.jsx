@@ -1,8 +1,11 @@
 import React, {useState} from "react";
 import AppointmentCard from "./AppointmentCard";
 import ChangeNumber from "./ChangeNumber";
+import axios from "axios";
 
-const ChangeNumberCard = () => {
+const ChangeNumberCard = ({doctor, fetchHospitalData}) => {
+
+    console.log(doctor);
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -44,7 +47,7 @@ const ChangeNumberCard = () => {
                         <button onClick={togglePopup} className="bg-blue-400 p-[0.5vw] rounded-lg">Change Number</button>
                     </div>
                     <ChangeNumber isOpen={isPopupOpen}
-                        onClose={togglePopup} DoctorId={"667a84b851ef8bd5cec3958c"}/>
+                        onClose={togglePopup} DoctorId={doctor._id} CurrentNumber={doctor.CurrentNumber} patients={doctor.Patients} fetchHospitalData = {fetchHospitalData}/>
                     <hr className="my-4 w-full" />
                     <div className="grid grid-cols-3 bg-slate-200 rounded-xl py-2 px-[1vw] mb-3">
                         <h1 className="text-sm font-semibold flex flex-wrap">Doctors 12</h1>
