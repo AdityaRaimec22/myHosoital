@@ -28,10 +28,18 @@ const NumberInHospital = async (req, res) => {
                 } else if(req.query.DoctorId) {
                     const HospitalNumber = await patient.find({"DoctorId": req.query.DoctorId}, '-_id -__v');
                     return res.status(201).json({HospitalNumber});
-                } else {
-                    const HospitalNumber = await patient.find({}, '-_id -__v');
+                } else if(req.query.userId) {
+                    console.log("I am here")
+                    const HospitalNumber = await patient.findOne({"userId": req.query.userId}, '-_id -__v')
+                    .populate('DoctorId', 'name CurrentNumber') 
+                    .populate('HospitalId', 'name'); 
                     return res.status(201).json({HospitalNumber});
                 }
+                else {
+                    console.log("I am here idhar: ", req.query )
+                    const HospitalNumber = await patient.find({}, '-_id -__v');
+                    return res.status(201).json({HospitalNumber});
+                } 
                 break;
             } catch (error) {
                 console.log(error);

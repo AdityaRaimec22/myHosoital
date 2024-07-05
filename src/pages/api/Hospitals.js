@@ -29,7 +29,14 @@ const Hospitals = async (req, res) => {
                         });
                     return res.status(200).json(HospitalData);
                 } else {
-                    res.status(400).json({ message: "Bhaiya system id chahiye yaar" });
+                    const HospitalData = await Hospital.find({})
+                        .populate({
+                            path: 'Doctors',
+                            populate: {
+                                path: 'Patients',
+                            }
+                        });
+                    return res.status(200).json(HospitalData);
                 }
             } catch (error) {
                 console.log(error);

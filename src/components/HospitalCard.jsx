@@ -1,6 +1,6 @@
 import React from "react";
 
-const HospitalCard = () => {
+const HospitalCard = ({hospital}) => {
     return (
         <div className="bg-white relative shadow-xl my-6 mr-6">
             <div className="relative z-10">
@@ -16,20 +16,22 @@ const HospitalCard = () => {
                                 alt=""
                             />
                         </div>
-                        <div className="text-2xl font-semibold mt-[1vw]">Lodhi Hospital</div>
+                        <div className="text-2xl font-semibold mt-[1vw]">{hospital.name}</div>
                     </div>
                 </div>
             </div>
             <div>
                 <div className="px-6 mt-[1vw]">
                     <div className="flex flex-col rounded ">
-                        <h1 className="w-[70%]">Dhanare Colony k baju me hi hai</h1>
-                        <h1 className="w-full rounded">Madhya Pradesh, Narsinghpur 487001</h1>
+                        <h1 className="w-[70%]">{hospital.address}</h1>
+                        <h1 className="w-full rounded">{hospital.state}, {hospital.city} {hospital.pinCode}</h1>
                     </div>
                     <div className="flex flex-wrap my-[1vw]">
-                        <div className="bg-slate-400 p-[0.3vw] rounded-lg shadow-lg">
-                            <h1 className="font-semibold">Facilities</h1>
+                        {hospital.facilities && hospital.facilities.map((ele) => {
+                            return <div className="bg-slate-400 p-[0.3vw] rounded-lg shadow-lg">
+                            <h1 className="font-semibold">{ele.name}</h1>
                         </div>
+                        })}
                     </div>
                     <hr className="my-4 w-full" />
                     <div className="grid grid-cols-3 bg-slate-200 rounded-xl py-2 px-[1vw] mb-3">

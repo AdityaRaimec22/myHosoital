@@ -23,7 +23,8 @@ const login = async (req, res) => {
                 if(isMatch) {
                     const data = {
                         user: {
-                            id: existingUser._id
+                            id: existingUser._id,
+                            success: true
                         }
                     }
         
