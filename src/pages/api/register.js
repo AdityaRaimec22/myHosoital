@@ -45,11 +45,8 @@ const register = async (req, res) => {
 
         // Set the cookie using setHeader method
         res.setHeader('Set-Cookie', cookie.serialize('authToken', authToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV !== 'development',
             maxAge: 60 * 60 * 24 * 30, // 1 week
             sameSite: 'strict',
-            path: '/'
         }));
 
         return res.status(200).json({

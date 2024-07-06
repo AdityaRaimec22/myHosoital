@@ -33,7 +33,7 @@ const login = async (req, res) => {
         
                     res.setHeader('Set-Cookie', cookie.serialize('authToken', authToken, {
                         httpOnly: true,
-                        secure: process.env.NODE_ENV !== 'development',
+                        secure: true,
                         maxAge: 60 * 60 * 24 * 30, // 1 week
                         sameSite: 'strict',
                         path: '/'
@@ -56,6 +56,7 @@ const login = async (req, res) => {
 
         case 'GET':
             try {
+                console.log("Idhar hu me bitch", req.query.id);
                 if(req.query.id) {
                     const user = await User.findById({"_id": req.query.id}, '-_id -__v');
                     return res.status(200).json(user); 

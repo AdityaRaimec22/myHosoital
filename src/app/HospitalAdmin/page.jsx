@@ -8,8 +8,6 @@ import Cookies from "universal-cookie";
 const Hospital = () => {
 
     const [HospitalData, setHospitalData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userId, setUserId] = useState('');
     const [name, setName] = useState('');
@@ -35,14 +33,20 @@ const Hospital = () => {
 
     useEffect(() => {
         fetchHospitalData();
-        fetchHospitalId();
-    }, []);
+    }, [HospitalId]);
+
+    useEffect(() => {
+        if(userId) {
+            fetchHospitalId();
+        }
+    },[userId])
 
     const fetchHospitalId = async () => {
-        console.log("I am trigerred")
+        console.log("I am trigerred", userId);
         try {
             const response = await axios.get(`/api/login/?id=${userId}`);
             console.log("the response is: ", response.data);
+            setHospitalId(response.data.HospitalAdmin);
         } catch (error) {
             console.log("The error is: ", error);
         }
@@ -55,11 +59,12 @@ const Hospital = () => {
             setHospitalData(response.data);
         } catch (error) {
             console.log(error);
-            setError(error);
-        } finally {
-            setLoading(false);
         }
     };
+
+    if(!HospitalId) {
+        return <div className="w-[100vw] h-[100vh] flex justify-center items-center text-2xl font-semibold ">Sorry, You are not the admin of any hospital !!</div>
+    }
 
     return (
         <main>
