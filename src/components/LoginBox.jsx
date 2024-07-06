@@ -95,12 +95,34 @@ const Login = ({ isOpen, onClose, newFunc }) => {
 
         try {
             const response = await axios.post('/api/register/', data);
-            Cookies.set('authToken', response.data.authToken, { expires: 30 });
             console.log('your request is successful: ', response.data);
-            onClose(); // Close the modal when the request is successful
-            newFunc();
+            const receivedData = response.data.data;
+            const receivedAuthToken = response.data.authToken;
+            if (receivedAuthToken) {
+                setGotData(receivedData);
+                setAuthToken(receivedAuthToken);
+                console.log('authToken:', receivedAuthToken);
+                
+                // Ensure cookies are set after the state is updated
+                cookie.set('authToken', receivedAuthToken, {
+                    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days expiration
+                    path: '/', // Ensure the cookie is available throughout the site
+                    secure: true, // Uncomment if using HTTPS
+                    sameSite: 'None' // Ensure the cookie is sent for cross-site requests
+                });
+                
+                cookie.set('data', receivedData);
+                console.log("The data that I wanted is: ", cookie.get('data'));
+                console.log('AuthToken set:', cookie.get('hello')); // Verify the cookie is set
+                console.log("The authToken that I wanted is: ", cookie.get('authToken'));
+                
+                onClose(); // Close the modal when the request is successful
+                newFunc();
+            } else {
+                console.log('AuthToken not found in response');
+            }
         } catch (error) {
-            console.log('kuch galat ho gya');
+            console.log('kuch galat ho gya', error);
         }
     };
 
@@ -138,6 +160,7 @@ const Login = ({ isOpen, onClose, newFunc }) => {
                                     className="h-8 p-2 rounded-xl bg-slate-300 shadow-lg border m-2 placeholder-black"
                                     placeholder="Enter Your Password"
                                     name="password"
+                                     type="password"
                                     value={SignUpFormData.password}
                                     onChange={handleSignUpChange}
                                 />
@@ -145,6 +168,7 @@ const Login = ({ isOpen, onClose, newFunc }) => {
                                     className="h-8 p-2 rounded-xl bg-slate-300 shadow-lg border m-2 placeholder-black"
                                     placeholder="Confirm Your Password"
                                     name="confirmPassword"
+                                     type="password"
                                     value={SignUpFormData.confirmPassword}
                                     onChange={handleSignUpChange}
                                 />
@@ -181,6 +205,7 @@ const Login = ({ isOpen, onClose, newFunc }) => {
                                     className="h-8 p-2 rounded-xl bg-slate-300 shadow-lg border m-2 placeholder-black"
                                     placeholder="Enter Your Password"
                                     name="password"
+                                     type="password"
                                     value={loginFormData.password}
                                     onChange={handleLoginChange}
                                 />
