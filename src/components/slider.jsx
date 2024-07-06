@@ -36,7 +36,7 @@ function Slider({hospitals}) {
         
             {hospitals && hospitals.map((ele) => {
               return <SwiperSlide>
-              <div className='flex flex-col rounded-3xl h-[19vw] bg-white' style={{ border: 'solid 1px  black', borderRadius: '15%' }}>
+              <div className='flex flex-col rounded-3xl h-[19vw] bg-white custom-md:h-[30vw] custom-md:w-[40vw] lg:h-[19vw] lg:w-auto' style={{ border: 'solid 1px  black', borderRadius: '15%' }}>
                 <div>
                   <img className='border' src="/Images/slideImage.png" alt="" />
                 </div>
@@ -45,10 +45,10 @@ function Slider({hospitals}) {
                   <div className='flex flex-col w-[100%] ml-[1vw]'>
                     <div className='flex justify-between'>
                       <div>
-                        <h1 className='text-black text-2xl font-semibold mt-[1vw]'>{ele.name}</h1>
-                        <h1 className='mt-[0.7vw]'>{ele.address}</h1>
-                        <h1 className=''>{ele.state}, {ele.city} {ele.pinCode}</h1>
-                        <h1 className='mt-[0.5vw]'>Since {ele.established}</h1>
+                        <h1 className='text-black text-[1.4vw] font-semibold mt-[1vw]'>{ele.name}</h1>
+                        <h1 className='mt-[0.7vw] text-[1vw] '>{ele.address}</h1>
+                        <h1 className='text-[1vw]'>{ele.state}, {ele.city} {ele.pinCode}</h1>
+                        <h1 className='mt-[0.5vw] text-[1vw]'>Since {ele.established}</h1>
                       </div>
                       < img className='mr-[1vw] h-[5vw]' src='/Images/rating.png'/>
                     </div>
@@ -58,13 +58,13 @@ function Slider({hospitals}) {
                 <div className='mx-[2vw] my-[1vw] flex flex-wrap'>
                   {ele.facilities && ele.facilities.map((ele) => {
                     return <div className='bg-slate-400 p-[0.3vw] rounded-lg shadow-lg'>
-                      <h1 className='text font-semibold'>{ele.name}</h1>
+                      <h1 className='text font-semibold text-[1vw]'>{ele.name}</h1>
                     </div>
                   })}
                 </div>
                 <div className='flex justify-center items-center px-auto'>
                 <Link href={`/Hospital/${ele._id}`} >
-                  <button className='py-1 px-6 rounded-full bg-sky-400 text-white'>View Profile</button>
+                  <button className='py-[0.2vw] px-[1.2vw] rounded-full bg-sky-400 text-white text-[1vw]'>View Profile</button>
                   </Link>
                 </div>
               </div>

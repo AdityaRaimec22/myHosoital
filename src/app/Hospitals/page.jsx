@@ -14,23 +14,22 @@ const RegisterHospitals = () => {
     useEffect(() => {
         // Access the stored cookie.
         newFunc();
-      }, [cookie]);
+    }, [cookie]);
     
-      const newFunc = () => {
+    const newFunc = () => {
         const data = cookie.get('data'); // assuming 'data' is the name of your cookie.
-        // console.log("The token is: ", data);
         if (data) {
           setUserId(data.user.id);
           setIsLoggedIn(data.user.success);
           setName("Hello " + data.user.name + " !");
         }
-      }
+    }
 
     const [FacilityArray, setFacilityArray] = useState([]);
-
     const [success, setSuccess] = useState(false);
+    const [HospitalId, setHospitalId] = useState("1");
 
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         name: '',
         state: '',
         city: '',
@@ -38,16 +37,22 @@ const RegisterHospitals = () => {
         address: '',
         established: '',
         img: null
-    });
+    };
 
-    const [docFormData, setDocFormData] = useState({
+    const initialDocFormData = {
         name: '',
         Qualification: '',
         Age: '',
         Gender: '',
         Role: '',
-        img: null
-    });
+        img: null,
+        HospitalId: HospitalId,
+        CurrentNumber: 0,
+        LastNumber: 0
+    };
+
+    const [formData, setFormData] = useState(initialFormData);
+    const [docFormData, setDocFormData] = useState(initialDocFormData);
 
     const [inputValue, setInputValue] = useState('');
 
@@ -65,7 +70,6 @@ const RegisterHospitals = () => {
             ...formData,
             [event.target.name]: event.target.value
         });
-        console.log(formData);
     };
 
     const docHandleChange = (event) => {
@@ -73,7 +77,6 @@ const RegisterHospitals = () => {
             ...docFormData,
             [event.target.name]: event.target.value
         });
-        console.log(docFormData);
     };
 
     const handleFacilityInputChange = (event) => {
@@ -81,17 +84,20 @@ const RegisterHospitals = () => {
     };
 
     const handleFileChange = (event) => {
-        setFormData({
-            ...formData,
-            img: event.target.files[0]
-        });
+        const { name, files } = event.target;
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: files[0]
+        }));
+        setDocFormData((prevDocFormData) => ({
+            ...prevDocFormData,
+            [name]: files[0]
+        }));
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("me toh chl gya bhai");
     
-        // Create a JSON object with the form data
         const data = {
             name: formData.name,
             state: formData.state,
@@ -103,16 +109,20 @@ const RegisterHospitals = () => {
             facilities: FacilityArray.map(facility => ({ name: facility }))
         };
     
-        console.log("the data is: ", data);
-    
         try {
             const response = await axios.post('/api/Hospitals', data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log("aapki request successful hui", response.data);
+            await axios.put('/api/login/',{
+                userId: userId,
+                HospitalAdmin: response.data._id
+            })
+            cookie.set('HospitalId', response.data._id);
             setSuccess(true);
+            setFormData(initialFormData); // Reset form fields
+            setFacilityArray([]); // Reset facilities array
             setTimeout(() => {
                 setSuccess(false);
             }, 2000);
@@ -130,24 +140,33 @@ const RegisterHospitals = () => {
             Gender: docFormData.Gender,
             Role: docFormData.Role,
             img: docFormData.img,
+            HospitalId: cookie.get('HospitalId'),
+            CurrentNumber: docFormData.CurrentNumber,
+            LastNumber: docFormData.LastNumber
         };
 
-        console.log("the data is: ", data);
-
         try {
-            const response = await axios.post('/api/Doctor', data, {
+            await axios.post('/api/Doctor', data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            });
-            console.log("aapki request successful hui", response.data);
+            }).then( (response => {
+                axios.put('/api/Doctor/', {
+                    id: cookie.get('HospitalId'),
+                    DoctorId: response.data._id
+                })
+            }))
+
+            setSuccess(true);
+            setDocFormData(initialDocFormData); // Reset doctor form fields
+            setTimeout(() => {
+                setSuccess(false);
+            }, 10000);
         } catch (error) {
             console.error("error aa gya: ", error);
         }
     }
-
-    
-
+ 
     return (
         <main>
             <Navbar isLoggedIn={isLoggedIn} name={name} />
@@ -203,6 +222,7 @@ const RegisterHospitals = () => {
                                 onChange={handleChange}
                             />
                             <input
+                                name="img"
                                 className='h-10 p-2 rounded-xl shadow-lg m-3 placeholder-black bg-white'
                                 type="file"
                                 accept="image/*"
@@ -236,10 +256,12 @@ const RegisterHospitals = () => {
                                 </div>
                             ))}
                         </div>
+                        <div className="w-full flex justify-center">
                         <button type="submit" className="bg-green-500 text-white p-2 rounded-lg shadow-lg m-3">
                             Register Hospital
                         </button>
-                        {success && <h1>Hospital Added Successfully</h1>}
+                        </div>
+                        {success && <h1>Hospital Added Successfully Add Doctors from Below</h1>}
                     </form>
                     <form onSubmit={handleDocSubmit}>
                     <div className="mt-5 bg-white rounded-2xl shadow-2xl border border-black p-[1vw]">

@@ -43,6 +43,30 @@ const Hospitals = async (req, res) => {
                 return res.status(500).json({ message: "Error retrieving hospital" });
             }
             break;
+
+        case 'PUT':
+            try {
+                const {id, DoctorId} = req.body;
+
+                if (!id) {
+                    return res.status(400).json({ message: "Doctor id and currentNumber are required" });
+                }
+
+                const NewDoctor = await Hospital.findByIdAndUpdate(
+                    id,
+                    {$push: {Doctors: DoctorId}},
+                    { new: true, runValidators: true, context: 'query' }
+                )
+
+                if (!NewDoctor) {
+                    return res.status(404).json({ message: "Doctor not found" });
+                }
+
+                return res.status(200).json(NewDoctor);
+            } catch (error) {
+                console.log(error);
+                return res.status(400).json({ message: "Error updating Doctor" });
+            }
     }
 }
 

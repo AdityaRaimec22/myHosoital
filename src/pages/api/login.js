@@ -64,6 +64,26 @@ const login = async (req, res) => {
             } catch (error) {
                 console.log(error);
             }
+            break;
+
+        case 'PUT':
+            try {
+                const {userId, HospitalAdmin} = req.body;
+
+                if(!userId) {
+                    return res.status(400).json({ message: "Doctor id and currentNumber are required" });
+                }
+
+                const updatedUser = await User.findByIdAndUpdate(
+                    userId,
+                    {$push: {HospitalAdmin: HospitalAdmin}}
+                )
+
+                res.status(201).json({updatedUser});
+            } catch (error) {
+                console.log("error occured: ", error);
+            }
+            break;
 
     }
 }
