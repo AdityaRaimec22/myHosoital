@@ -17,27 +17,33 @@ const DoctorCard = ({doctor, HospitalId}) => {
                     <img src="/Images/Rectangle2.png" alt="" className="w-full h-auto relative" />
                     <div className="absolute top-2 left-0 right-0 flex flex-col justify-end p-4">
                         <div className="flex justify-between relative">
+                            <div>
                             <div className="text-black bg-slate-100 p-1 rounded">Top Rated</div>
-                            <img src="/Images/Group_stars.svg" alt="Helllo" />
+                            </div>
+                            <div>
+                            <img className="h-[4vw] mb-2" src="/Images/rating.png" alt="Helllo" />
+                            </div>
                             <img
                                 className="absolute right-3 2xl:top-16 xl:top-12 top-14 z-20 border border-red-400 w-24 h-24 rounded-full"
                                 src="https://getwallpapers.com/wallpaper/full/a/2/f/1092972-nature-background-hd-2560x1600-for-tablet.jpg"
                                 alt=""
                             />
                         </div>
-                        <div className="text-2xl font-semibold mt-[1vw]">Lodhi Patel</div>
+                        <div className="text-2xl font-semibold mt-[1vw]">{doctor.name}</div>
                     </div>
                 </div>
             </div>
             <div>
                 <div className="px-6 mt-[1vw]">
-                    <div className="flex flex-col rounded ">
-                        <h1 className="w-[70%]">Dhanare Colony k baju me hi hai</h1>
-                        <h1 className="w-full rounded">Madhya Pradesh, Narsinghpur 487001</h1>
-                    </div>
-                    <div className="flex flex-wrap my-[1vw]">
-                        <div className="bg-slate-400 p-[0.3vw] rounded-lg shadow-lg">
-                            <h1 className="font-semibold">Facilities</h1>
+                    <div className="grid grid-cols-2 m-[1vw]">
+                        <div>
+                            <h1 className="w-[70%] font-semibold text-lg ">Qualification: {doctor.Qualification}</h1>
+                            <h1 className="w-full text-lg font-semibold rounded">Age: {doctor.Age}</h1>
+                            <h1 className="w-full text-lg font-semibold rounded">Gender: {doctor.Gender}</h1>
+                        </div>
+                        <div>
+                            <h1 className="w-full font-semibold text-lg rounded">Role: {doctor.Role}</h1>
+                            <h1 className="w-full font-semibold text-lg rounded">Current Number of Doctor: {doctor.CurrentNumber}</h1>
                         </div>
                     </div>
                     <div className="w-[100%] flex justify-center">

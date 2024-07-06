@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const HospitalCard = ({hospital}) => {
     return (
@@ -33,6 +34,11 @@ const HospitalCard = ({hospital}) => {
                         </div>
                         })}
                     </div>
+                    <div className='flex justify-center items-center px-auto'>
+                  <Link href={`/Hospital/${hospital._id}`} >
+                  <button className='py-1 px-6 rounded-full bg-sky-400 text-white'>View Profile</button>
+                  </Link>
+                </div>
                     <hr className="my-4 w-full" />
                     <div className="grid grid-cols-3 bg-slate-200 rounded-xl py-2 px-[1vw] mb-3">
                         <h1 className="text-sm font-semibold flex flex-wrap">Doctors 12</h1>

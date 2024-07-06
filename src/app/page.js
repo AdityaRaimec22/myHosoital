@@ -5,6 +5,7 @@ import HospitalCard from '@/components/HospitalCard'
 import Cookies from 'universal-cookie'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import Link from 'next/link'
 
 export default function Home() {
 
@@ -14,6 +15,7 @@ export default function Home() {
   const [userId, setUserId] = useState('');
   const [hospitals, setHospitals] = useState();
   const [patientData, setPatientData] = useState();
+  const [name, setName] = useState();
 
   useEffect(() => {
     // Access the stored cookie.
@@ -26,6 +28,7 @@ export default function Home() {
     if (data) {
       setUserId(data.user.id);
       setIsLoggedIn(data.user.success);
+      setName("Hello " + data.user.name + " !");
     }
   }
 
@@ -63,7 +66,7 @@ export default function Home() {
   return (
     <>
       <div className='flex flex-col gap-6'>
-        <Navbar isLoggedIn = {isLoggedIn} newFunc = {newFunc} />
+        <Navbar isLoggedIn = {isLoggedIn} newFunc = {newFunc} name = {name} />
         <div className=''>
           <Slider hospitals = {hospitals} />
         </div>

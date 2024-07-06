@@ -1,7 +1,7 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './slider.css'
-
+import Link from 'next/link';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
@@ -63,7 +63,9 @@ function Slider({hospitals}) {
                   })}
                 </div>
                 <div className='flex justify-center items-center px-auto'>
+                <Link href={`/Hospital/${ele._id}`} >
                   <button className='py-1 px-6 rounded-full bg-sky-400 text-white'>View Profile</button>
+                  </Link>
                 </div>
               </div>
 

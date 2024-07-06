@@ -3,13 +3,15 @@ import Navbar from "@/components/Navbar";
 import React, { useEffect, useState } from "react";
 import DoctorCard from "@/components/DoctorCard";
 import axios from "axios";
+import { useParams } from "next/navigation";
 
 const Hostpital = () => {
 
-    const HospitalId = `667d3c792f69332028522788`;
     const [HospitalData, setHospitalData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { id } = useParams();
+    console.log("the id is: ", id);
 
     useEffect(() => {
         fetchHospitalData();
@@ -17,7 +19,7 @@ const Hostpital = () => {
 
     const fetchHospitalData = async () => {
         try {
-            const response = await axios.get(`/api/Hospitals/?id=${HospitalId}`);
+            const response = await axios.get(`/api/Hospitals/?id=${id}`);
             console.log("API Response: ", response.data);
             setHospitalData(response.data);
         } catch (error) {
@@ -43,25 +45,27 @@ const Hostpital = () => {
 
                 <div className="flex-col text-black p-2">
 
-                    <p className="pt-4 text-2xl font-bold mb-3">Lodhi Hospital</p>
-                    <p className="mb-4">Yhi bagal me Madhya Pradesh Narsinghpur 487001</p>
+                    <p className="pt-4 text-2xl font-bold mb-3">{ HospitalData && HospitalData.name}</p>
+                    <p className="mb-4">{HospitalData && HospitalData.address} {HospitalData && HospitalData.state} { HospitalData && HospitalData.city} {HospitalData && HospitalData.pinCode}</p>
                     <div className="bg-white w-full py-0.5 mb-8 rounded-2xl"></div>
-                    <div className="text-md flex justify-between px-4 my-2">
+                    {/* <div className="text-md flex justify-between px-4 my-2">
                         <span className="font-bold">Higher Education | address |  1000 followers | 20000 alumni</span>
                         <span className="font-bold"></span>
-                    </div>
+                    </div> */}
 
-                    <p className="hidden md:block px-4 my-4 text-sm text-left">This is my about page</p>
+                    <p className="hidden md:block px-4 my-4 text-lg text-left">This is Hospitals about page</p>
 
                     <p className="flex text-md px-4 my-2">
-                        Est. 1864
+                        Est. {HospitalData && HospitalData.established}
                         <span className="font-bold px-2">|</span>
-                        A Grade
+                        Top rated
                     </p>
 
                     <div className="text-xs">
-                        <button type="button"
-                            className="border bg-slate-300 border-blue-400 text-white-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-white focus:outline-none focus:shadow-outline">Tamatar</button>
+                        {HospitalData && HospitalData.facilities.map((ele) => {
+                            return <button type="button"
+                            className="border bg-slate-300 border-blue-400 text-white-400 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-white focus:outline-none focus:shadow-outline">{ele.name}</button>
+                        })}
                     </div>
                 </div>
                 <img
@@ -73,7 +77,7 @@ const Hostpital = () => {
             <h1 className="text-2xl font-semibold bg-white p-2 rounded-lg shadow-2xl mt-2">Our Doctors</h1>
             <div className='grid grid-cols-3 gap-4'>
                 {HospitalData && HospitalData.Doctors.map((ele) => {
-                    return <DoctorCard key={ele._id} doctor={ele} HospitalId={HospitalId}/>
+                    return <DoctorCard key={ele._id} doctor={ele} HospitalId={id}/>
                 })}
             </div>
         </div>

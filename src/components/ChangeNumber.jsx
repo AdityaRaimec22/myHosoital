@@ -45,11 +45,15 @@ const ChangeNumber = ({ isOpen, onClose, DoctorId, CurrentNumber, patients, fetc
   console.log("the userId is: ", userId);
 
   const changeNumber = async () => {
+    console.log("the current number is: ", currentNum);
     const newNumber = currentNum + 1;
+    console.log("the current number is: ", newNumber);
     const patient = patients.find(ele => ele.patientNumber === newNumber);
+    console.log("the patient is: ", patient);
     if (patient) {
+      console.log("I am here");
       try {
-        await axios.put('/api/Doctor/', { id: DoctorId, currentNumber: newNumber });
+        await axios.put('/api/Doctor/', { id: DoctorId, CurrentNumber: newNumber });
         setPatientId(patient._id);
         setPatientName(patient.patientName);
         setCurrentNumber(patient.patientNumber);
@@ -58,9 +62,10 @@ const ChangeNumber = ({ isOpen, onClose, DoctorId, CurrentNumber, patients, fetc
         setUserId(patient.userId);
         fetchHospitalData();
       } catch (error) {
-        console.log(error);
+        console.log("the error is: ", error);
       }
     } else {
+      console.log("No I am here")
       setNoNums(true);
       setTimeout(() => {
         setNoNums(false);

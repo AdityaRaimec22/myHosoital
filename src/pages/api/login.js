@@ -24,7 +24,8 @@ const login = async (req, res) => {
                     const data = {
                         user: {
                             id: existingUser._id,
-                            success: true
+                            success: true,
+                            name: existingUser.name
                         }
                     }
         

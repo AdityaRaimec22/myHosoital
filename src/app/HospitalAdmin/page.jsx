@@ -27,11 +27,6 @@ const Hospital = () => {
         }
     };
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error.message}</p>;
-
-    if (!HospitalData) return <p>No data available</p>;
-
     return (
         <main>
             <Navbar />
