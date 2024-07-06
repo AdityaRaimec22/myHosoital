@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import AppointmentCard from "./AppointmentCard";
 
 
-const DoctorCard = ({doctor, HospitalId}) => {
+const DoctorCard = ({doctor, HospitalId, userId}) => {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -50,7 +50,7 @@ const DoctorCard = ({doctor, HospitalId}) => {
                         <button onClick={togglePopup} className="bg-blue-400 p-[0.5vw] rounded-lg">get Appointment</button>
                     </div>
                     <AppointmentCard isOpen={isPopupOpen}
-                        onClose={togglePopup} HospitalId={HospitalId} doctorId={doctor._id} LastNumber={doctor.LastNumber} />
+                        onClose={togglePopup} HospitalId={HospitalId} doctorId={doctor._id} LastNumber={doctor.LastNumber} userId = {userId} />
                     <hr className="my-4 w-full" />
                     <div className="grid grid-cols-3 bg-slate-200 rounded-xl py-2 px-[1vw] mb-3">
                         <h1 className="text-sm font-semibold flex flex-wrap">Doctors 12</h1>

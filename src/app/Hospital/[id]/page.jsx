@@ -4,14 +4,34 @@ import React, { useEffect, useState } from "react";
 import DoctorCard from "@/components/DoctorCard";
 import axios from "axios";
 import { useParams } from "next/navigation";
+import Cookies from "universal-cookie";
 
 const Hostpital = () => {
 
     const [HospitalData, setHospitalData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userId, setUserId] = useState('');
+    const [name, setName] = useState('');
     const { id } = useParams();
+    const cookie = new Cookies();
     console.log("the id is: ", id);
+
+    useEffect(() => {
+        // Access the stored cookie.
+        newFunc();
+      }, [cookie]);
+    
+      const newFunc = () => {
+        const data = cookie.get('data'); // assuming 'data' is the name of your cookie.
+        // console.log("The token is: ", data);
+        if (data) {
+          setUserId(data.user.id);
+          setIsLoggedIn(data.user.success);
+          setName("Hello " + data.user.name + " !");
+        }
+      }
 
     useEffect(() => {
         fetchHospitalData();
@@ -32,7 +52,7 @@ const Hostpital = () => {
     
     return (
         <main>
-        <Navbar/>
+        <Navbar isLoggedIn={isLoggedIn} name={name}  />
         <div className="flex flex-col gap-4 p-4 bg-slate-200">
             <div className="md:flex px-4 leading-none max-w-full mt-6 bg-blue-100 rounded-md">
                 <div className="flex-none ">
@@ -77,7 +97,7 @@ const Hostpital = () => {
             <h1 className="text-2xl font-semibold bg-white p-2 rounded-lg shadow-2xl mt-2">Our Doctors</h1>
             <div className='grid grid-cols-3 gap-4'>
                 {HospitalData && HospitalData.Doctors.map((ele) => {
-                    return <DoctorCard key={ele._id} doctor={ele} HospitalId={id}/>
+                    return <DoctorCard key={ele._id} doctor={ele} HospitalId={id} userId = {userId}/>
                 })}
             </div>
         </div>

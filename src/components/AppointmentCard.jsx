@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-const AppointmentCard = ({ isOpen, onClose, HospitalId, doctorId, LastNumber }) => {
+const AppointmentCard = ({ isOpen, onClose, HospitalId, doctorId, LastNumber, userId }) => {
   if (!isOpen) return null;
 
   console.log("the last number is: ", LastNumber, "the doctor Id is: ", doctorId);
@@ -22,6 +22,7 @@ const AppointmentCard = ({ isOpen, onClose, HospitalId, doctorId, LastNumber }) 
       patientGender: formData.patientGender,
       DoctorId: doctorId,
       HospitalId: HospitalId,
+      userId: userId
     };
 
     try {

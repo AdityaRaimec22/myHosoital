@@ -1,9 +1,31 @@
 "use client"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Navbar from "@/components/Navbar"
 import axios from "axios";
+import Cookies from "universal-cookie";
 
 const RegisterHospitals = () => {
+
+    const cookie = new Cookies();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userId, setUserId] = useState('');
+    const [name, setName] = useState('');
+
+    useEffect(() => {
+        // Access the stored cookie.
+        newFunc();
+      }, [cookie]);
+    
+      const newFunc = () => {
+        const data = cookie.get('data'); // assuming 'data' is the name of your cookie.
+        // console.log("The token is: ", data);
+        if (data) {
+          setUserId(data.user.id);
+          setIsLoggedIn(data.user.success);
+          setName("Hello " + data.user.name + " !");
+        }
+      }
+
     const [FacilityArray, setFacilityArray] = useState([]);
 
     const [success, setSuccess] = useState(false);
@@ -128,7 +150,7 @@ const RegisterHospitals = () => {
 
     return (
         <main>
-            <Navbar />
+            <Navbar isLoggedIn={isLoggedIn} name={name} />
             <div className="flex justify-center w-full h-full">
                 <div className="flex flex-col justify-center m-[2vw] w-[46%]">
                     <div className="w-full flex justify-center m-[1vw]">

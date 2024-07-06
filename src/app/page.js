@@ -56,7 +56,7 @@ export default function Home() {
     try {
       console.log("The id which is logged in is: ", userId);
       const response = await axios.get(`/api/HospitalNumber/?userId=${userId}`);
-      console.log("the patient data is: ", response.data.HospitalNumber);
+      console.log("the patient data is: ", response.data);
       setPatientData(response.data.HospitalNumber);
     } catch (error) {
       console.log("some error occured: ", error);
@@ -78,7 +78,7 @@ export default function Home() {
                 <h2 className='text-xl'>Your Number is: {patientData.patientNumber}</h2>
                 <h2 className='text-xl'>Patient Name: {patientData.patientName}</h2>
                 <h2 className='text-xl'>Your Hospital is: {patientData.HospitalId && patientData.HospitalId.name}</h2>
-                <h2 className='text-xl'>Your Hospital is: {patientData.DoctorId && patientData.DoctorId.name}</h2>
+                <h2 className='text-xl'>Your Doctor is: {patientData.DoctorId && patientData.DoctorId.name}</h2>
                 <div className='w-full flex justify-center'>
                   <h1 className='text-3xl font-bold'>{patientData.DoctorId && patientData.DoctorId.CurrentNumber}</h1>
                 </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Login from "./LoginBox";
+import Link from "next/link";
 
 const Navbar = ({ isLoggedIn, newFunc, name }) => {
     const [isLogin, setIsLogin] = useState(false);
@@ -26,9 +27,9 @@ const Navbar = ({ isLoggedIn, newFunc, name }) => {
                     {isMenuOpen && (
                         <div className="absolute right-[2vw] top-16 bg-white shadow-lg rounded-lg z-50 ">
                             <ul className="flex flex-col p-4">
-                                <li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">Register Hospital</li>
-                                <li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">Your Hospital</li>
-                                <li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">Demo</li>
+                                <Link href={`/Hospitals`} ><li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">Register Hospital</li></Link>
+                                <Link href={`/HospitalAdmin`} ><li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">Your Hospital</li></Link>
+                                <Link href={`/`} ><li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">Home</li></Link>
                             </ul>
                         </div>
                     )}
