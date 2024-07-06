@@ -3,16 +3,50 @@ import Navbar from "@/components/Navbar";
 import React, { useState, useEffect } from "react";
 import ChangeNumberCard from "@/components/ChangeNumberCard";
 import axios from "axios";
+import Cookies from "universal-cookie";
 
 const Hospital = () => {
-    const HospitalId = `667d3c792f69332028522788`;
+
     const [HospitalData, setHospitalData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userId, setUserId] = useState('');
+    const [name, setName] = useState('');
+    const cookie = new Cookies();
+    const [HospitalId, setHospitalId] = useState("667d3c792f69332028522788");
+
+    useEffect(() => {
+        // Access the stored cookie.
+        newFunc();
+      }, [cookie]);
+    
+      const newFunc = () => {
+        const data = cookie.get('data'); // assuming 'data' is the name of your cookie.
+        // console.log("The token is: ", data);
+        if (data) {
+          setUserId(data.user.id);
+          setIsLoggedIn(data.user.success);
+          setName("Hello " + data.user.name + " !");
+        }
+      }
+
+      console.log("the user id is: ", userId);
 
     useEffect(() => {
         fetchHospitalData();
+        fetchHospitalId();
     }, []);
+
+    const fetchHospitalId = async () => {
+        console.log("I am trigerred")
+        try {
+            const response = await axios.get(`/api/login/?id=${userId}`);
+            console.log("the response is: ", response.data);
+        } catch (error) {
+            console.log("The error is: ", error);
+        }
+    }
 
     const fetchHospitalData = async () => {
         try {
@@ -29,7 +63,7 @@ const Hospital = () => {
 
     return (
         <main>
-            <Navbar />
+            <Navbar isLoggedIn = {isLoggedIn} name = {name} />
             <div className="flex flex-col gap-4 p-4 bg-slate-200">
                 <div className="md:flex px-4 leading-none max-w-full mt-6 bg-blue-100 rounded-md">
                     <div className="flex-none ">
@@ -41,8 +75,8 @@ const Hospital = () => {
                     </div>
 
                     <div className="flex-col text-black p-2">
-                        <p className="pt-4 text-2xl font-bold mb-3">{HospitalData.name}</p>
-                        <p className="mb-4">{HospitalData.address}</p>
+                        <p className="pt-4 text-2xl font-bold mb-3">{HospitalData && HospitalData.name}</p>
+                        <p className="mb-4">{HospitalData && HospitalData.address}</p>
                         <div className="bg-white w-full py-0.5 mb-8 rounded-2xl"></div>
                         <div className="text-md flex justify-between px-4 my-2">
                             <span className="font-bold">Higher Education | address | 1000 followers | 20000 alumni</span>
@@ -74,7 +108,7 @@ const Hospital = () => {
                 </div>
                 <h1 className="text-2xl font-semibold bg-white p-2 rounded-lg shadow-2xl mt-2">Our Doctors</h1>
                 <div className="grid grid-cols-3 gap-4">
-                    {HospitalData.Doctors && HospitalData.Doctors.map((ele) => (
+                    {HospitalData && HospitalData.Doctors && HospitalData.Doctors.map((ele) => (
                         <ChangeNumberCard key={ele._id} doctor={ele} fetchHospitalData = {fetchHospitalData} />
                     ))}
                 </div>

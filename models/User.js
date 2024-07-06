@@ -14,10 +14,12 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    HospitalAdmin: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Hospital'
-    }
+    HospitalAdmin: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Hospital'
+        }
+    ]
 })
 
 export default mongoose.models.User || mongoose.model("User", UserSchema);

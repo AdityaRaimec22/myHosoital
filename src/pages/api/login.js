@@ -57,7 +57,7 @@ const login = async (req, res) => {
         case 'GET':
             try {
                 if(req.query.id) {
-                    const user = await User.find({"_id": req.query.id}, '-_id -__v');
+                    const user = await User.findById({"_id": req.query.id}, '-_id -__v');
                     return res.status(200).json(user); 
                 }
             } catch (error) {
