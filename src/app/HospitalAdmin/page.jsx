@@ -6,43 +6,44 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 
 const Hospital = () => {
-
     const [HospitalData, setHospitalData] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userId, setUserId] = useState('');
     const [name, setName] = useState('');
     const cookie = new Cookies();
-    const [HospitalId, setHospitalId] = useState("667d3c792f69332028522788");
+    const [HospitalId, setHospitalId] = useState(null);
+    const [present, setPresent] = useState(false);
 
     useEffect(() => {
         // Access the stored cookie.
         newFunc();
-      }, [cookie]);
+    }, []);
     
-      const newFunc = () => {
+    const newFunc = () => {
         const data = cookie.get('data'); // assuming 'data' is the name of your cookie.
         // console.log("The token is: ", data);
         if (data) {
-          setUserId(data.user.id);
-          setIsLoggedIn(data.user.success);
-          setName("Hello " + data.user.name + " !");
+            setUserId(data.user.id);
+            setIsLoggedIn(data.user.success);
+            setName("Hello " + data.user.name + " !");
         }
-      }
-
-      console.log("the user id is: ", userId);
-
-    useEffect(() => {
-        fetchHospitalData();
-    }, [HospitalId]);
+    }
 
     useEffect(() => {
         if(userId) {
             fetchHospitalId();
         }
-    },[userId])
+    }, [userId]);
+
+    useEffect(() => {
+        if(HospitalId) {
+            fetchHospitalData();
+            setPresent(true);
+        }
+    }, [HospitalId]);
 
     const fetchHospitalId = async () => {
-        console.log("I am trigerred", userId);
+        console.log("I am triggered", userId);
         try {
             const response = await axios.get(`/api/login/?id=${userId}`);
             console.log("the response is: ", response.data);
@@ -62,13 +63,10 @@ const Hospital = () => {
         }
     };
 
-    if(!HospitalId) {
-        return <div className="w-[100vw] h-[100vh] flex justify-center items-center text-2xl font-semibold ">Sorry, You are not the admin of any hospital !!</div>
-    }
-
     return (
         <main>
-            <Navbar isLoggedIn = {isLoggedIn} name = {name} />
+            {present && <div>
+            <Navbar isLoggedIn={isLoggedIn} name={name} />
             <div className="flex flex-col gap-4 p-4 bg-slate-200">
                 <div className="md:flex px-4 leading-none max-w-full mt-6 bg-blue-100 rounded-md">
                     <div className="flex-none ">
@@ -114,10 +112,14 @@ const Hospital = () => {
                 <h1 className="text-2xl font-semibold bg-white p-2 rounded-lg shadow-2xl mt-2">Our Doctors</h1>
                 <div className="grid grid-cols-3 gap-4">
                     {HospitalData && HospitalData.Doctors && HospitalData.Doctors.map((ele) => (
-                        <ChangeNumberCard key={ele._id} doctor={ele} fetchHospitalData = {fetchHospitalData} />
+                        <ChangeNumberCard key={ele._id} doctor={ele} fetchHospitalData={fetchHospitalData} />
                     ))}
                 </div>
             </div>
+            </div>}
+            {!present && <div className="w-[100vw] h-[100vh] flex justify-center items-center text-2xl font-semibold ">
+                Sorry, You are not the admin of any hospital !!
+            </div>}
         </main>
     );
 };

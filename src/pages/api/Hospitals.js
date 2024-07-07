@@ -48,6 +48,8 @@ const Hospitals = async (req, res) => {
             try {
                 const {id, DoctorId} = req.body;
 
+                console.log(" the id and doctor id is: ", id, DoctorId);
+
                 if (!id) {
                     return res.status(400).json({ message: "Doctor id and currentNumber are required" });
                 }

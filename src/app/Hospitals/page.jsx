@@ -151,9 +151,11 @@ const RegisterHospitals = () => {
                     'Content-Type': 'application/json'
                 }
             }).then( (response => {
-                axios.put('/api/Doctor/', {
+                console.log("the hospital Id is: ", cookie.get('HospitalId'));
+                console.log("the doctor id is: ", response.data.savedDoctor._id);
+                axios.put('/api/Hospitals/', {
                     id: cookie.get('HospitalId'),
-                    DoctorId: response.data._id
+                    DoctorId: response.data.savedDoctor._id
                 })
             }))
 
